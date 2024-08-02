@@ -16,7 +16,7 @@ You should have received a copy of the GNU Affero General Public License along
 with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
 #>
 
-Function Set-NinjaRmmSecrets {
+Function Set-NinjaRmmApiToolSecrets {
 	[OutputType('void')]
 	Param(
 		[AllowNull()]
@@ -30,8 +30,8 @@ Function Set-NinjaRmmSecrets {
 	$env:NinjaRmmSecretAccessKey = $SecretAccessKey
 }
 
-Function Reset-NinjaRmmSecrets {
-	[Alias('Remove-NinjaRmmSecrets')]
+Function Reset-NinjaRmmApiToolSecrets {
+	[Alias('Remove-NinjaRmmApiToolSecrets')]
 	[OutputType('void')]
 	Param()
 
@@ -39,7 +39,7 @@ Function Reset-NinjaRmmSecrets {
 	Remove-Variable -Name $env:NinjaRmmSecretAccessKey
 }
 
-Function Set-NinjaRmmServerLocation {
+Function Set-NinjaRmmApiToolServerLocation {
 	[OutputType('void')]
 	Param(
 		[ValidateSet('US', 'EU')]
@@ -49,7 +49,7 @@ Function Set-NinjaRmmServerLocation {
 	$env:NinjaRmmServerLocation = $Location
 }
 
-Function Send-NinjaRmmApiTool-Tool {
+Function Send-NinjaRmmApiTool {
 	[CmdletBinding()]
 	Param(
 		[Parameter(Mandatory)]
@@ -62,10 +62,10 @@ Function Send-NinjaRmmApiTool-Tool {
 
 	# Stop if our secrets have not been learned.
 	If ($null -eq $env:NinjaRmmSecretAccessKey) {
-		Throw [Data.NoNullAllowedException]::new('No secret access key has been provided.  Please run Set-NinjaRmmSecrets.')
+		Throw [Data.NoNullAllowedException]::new('No secret access key has been provided.  Please run Set-NinjaRmmApiToolSecrets.')
 	}
 	If ($null -eq $env:NinjaRmmAccessKeyID) {
-		Throw [Data.NoNullAllowedException]::new('No access key ID has been provided.  Please run Set-NinjaRmmSecrets.')
+		Throw [Data.NoNullAllowedException]::new('No access key ID has been provided.  Please run Set-NinjaRmmApiToolSecrets.')
 	}
 
 	# Get the current date.  Calling -Format converts it to a [String], so we
@@ -102,7 +102,7 @@ Function Send-NinjaRmmApiTool-Tool {
 		$HostName = 'eu-api.ninjarmm.com'
 	}
 	Else {
-		Throw [ArgumentException]::new("The server location ${env:NinjaRmmServerLocation} is not valid.  Please run Set-NinjaRmmServerLocation.")
+		Throw [ArgumentException]::new("The server location ${env:NinjaRmmServerLocation} is not valid.  Please run Set-NinjaRmmApiToolServerLocation.")
 	}
 
 	# Create a user agent for logging purposes.
@@ -142,7 +142,7 @@ Function Send-NinjaRmmApiTool-Tool {
 	Return (Invoke-RestMethod @Arguments)
 }
 
-Function Get-NinjaRmmAlerts {
+Function Get-NinjaRmmApiToolAlerts {
 	[CmdletBinding(DefaultParameterSetName='AllAlerts')]
 	Param(
 		[Parameter(ParameterSetName='OneAlert')]
@@ -163,9 +163,9 @@ Function Get-NinjaRmmAlerts {
 	Return (Send-NinjaRmmApiTool -RequestToSend $Request)
 }
 
-Function Reset-NinjaRmmAlert {
+Function Reset-NinjaRmmApiToolAlert {
 	[CmdletBinding()]
-	[Alias('Remove-NinjaRmmAlert')]
+	[Alias('Remove-NinjaRmmApiToolAlert')]
 	Param(
 		[Parameter(Mandatory)]
 		[UInt32] $AlertId
@@ -174,7 +174,7 @@ Function Reset-NinjaRmmAlert {
 	Return (Send-NinjaRmmApiTool -Method 'DELETE' -RequestToSend "/v1/alerts/$AlertId")
 }
 
-Function Get-NinjaRmmCustomers {
+Function Get-NinjaRmmApiToolCustomers {
 	[CmdletBinding(DefaultParameterSetName='AllCustomers')]
 	Param(
 		[Parameter(ParameterSetName='OneCustomer')]
@@ -188,7 +188,7 @@ Function Get-NinjaRmmCustomers {
 	Return (Send-NinjaRmmApiTool -RequestToSend $Request)
 }
 
-Function Get-NinjaRmmDevices {
+Function Get-NinjaRmmApiToolDevices {
 	[CmdletBinding(DefaultParameterSetName='AllDevices')]
 	Param(
 		[Parameter(ParameterSetName='OneDevice')]

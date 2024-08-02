@@ -1,5 +1,5 @@
-<# 
-This file is part of the NinjaRmmApiTool module. 
+<#
+This file is part of the NinjaRmmApiTool module.
 This module is not affiliated with, endorsed by, or related to NinjaRMM, LLC.
 
 NinjaRmmApiTool is free software:  you can redistribute it and/or modify it under
@@ -18,27 +18,26 @@ with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
 
 @{
     RootModule = 'NinjaRmmApiTool.psm1'
-    ModuleVersion = '1.0.0'
+    ModuleVersion = '1.0.1'  # Incremented version number
     CompatiblePSEditions = @('Desktop', 'Core')
     PowerShellVersion = '5.1'
     GUID = 'aaa3b5ab-8861-4ce4-b0aa-f2089dee9cf2'
     Author = 'Your Name'
-    Copyright = '(c) 2024 Your Name. Forked from Colin Cogle. All rights reserved. Licensed under the AGPL version 3.'
     Description = 'An unofficial PowerShell module to interact with NinjaRMM. Forked from Colin Cogle''s NinjaRmmApi.'
     FunctionsToExport = @(
-        'Get-NinjaRmmAlerts',
-        'Get-NinjaRmmCustomers',
-        'Get-NinjaRmmDevices',
-        'Reset-NinjaRmmAlert',
-        'Reset-NinjaRmmSecrets',
-        'Set-NinjaRmmSecrets',
-        'Set-NinjaRmmServerLocation'
+        'Get-NinjaRmmApiToolAlerts',
+        'Get-NinjaRmmApiToolCustomers',
+        'Get-NinjaRmmApiToolDevices',
+        'Reset-NinjaRmmApiToolAlert',
+        'Reset-NinjaRmmApiToolSecrets',
+        'Set-NinjaRmmApiToolSecrets',
+        'Set-NinjaRmmApiToolServerLocation'
     )
     CmdletsToExport = @()
     VariablesToExport = @()
     AliasesToExport = @(
-        'Remove-NinjaRmmAlert',
-        'Remove-NinjaRmmSecrets'
+        'Remove-NinjaRmmApiToolAlert',
+        'Remove-NinjaRmmApiToolSecrets'
     )
     FileList = @(
         'en-US/about_NinjaRmmApiTool.help.txt',
@@ -54,10 +53,10 @@ with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
     PrivateData = @{
         PSData = @{
             Tags = @('Ninja', 'NinjaRMM', 'RMM', 'API', 'computers', 'devices', 'alerts', 'customers', 'REST', 'Windows', 'cloud', 'network', 'macOS')
-            LicenseUri = 'https://github.com/kalichuza/NinjaRmmApiTool/blob/main/LICENSE'
-            ProjectUri = 'https://github.com/kalichuza/NinjaRmmApiTool/'
-            IconUri = 'https://raw.githubusercontent.com/kalichuza/NinjaRmmApiTool/main/NinjaRmmApiTool.png'
-            ReleaseNotes = 'https://github.com/kalichuza/NinjaRmmApiTool/blob/main/NEWS'
+            LicenseUri = 'https://github.com/kalichuza/NinjaRmmApi-Tool/blob/main/LICENSE'
+            ProjectUri = 'https://github.com/kalichuza/NinjaRmmApi-Tool/'
+            IconUri = 'https://raw.githubusercontent.com/kalichuza/NinjaRmmApi-Tool/main/NinjaRmmApiTool.png'
+            ReleaseNotes = 'https://github.com/kalichuza/NinjaRmmApi-Tool/blob/main/NEWS'
             Prerelease = ''
             RequireLicenseAcceptance = $false
         }
