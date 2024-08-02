@@ -11,7 +11,7 @@ Currntly this I have just set up this fork as a staging ground and will release 
 Install-Module -Name NinjaRmmApiTool
 ```
 
-**Below, you will find the documentation to the original tool.
+**Below, you will find the documentation to the original tool.**
 <hr>
 
 ![NinjaRmmApi logo](https://github.com/Kalichuza/NinjaRmm-Api/blob/main/NinjaRmm-Api.png?raw=true)
