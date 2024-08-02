@@ -1,19 +1,19 @@
 <#
-This file is part of the NinjaRmmApi-Tool module.
+This file is part of the NinjaRmm-Api module.
 This module is not affiliated with, endorsed by, or related to NinjaRMM, LLC.
 
-NinjaRmmApi-Tool is free software:  you can redistribute it and/or modify it under
+NinjaRmm-Api is free software:  you can redistribute it and/or modify it under
 the terms of the GNU Affero General Public License as published by the Free
 Software Foundation, either version 3 of the License, or (at your option) any
 later version.
 
-NinjaRmmApi-Tool is distributed in the hope that it will be useful, but WITHOUT ANY
+NinjaRmm-Api is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY;  without even the implied warranty of MERCHANTABILITY or FITNESS FOR
 A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more
 details.
 
 You should have received a copy of the GNU Affero General Public License along
-with NinjaRmmApi-Tool.  If not, see <https://www.gnu.org/licenses/>.
+with NinjaRmm-Api.  If not, see <https://www.gnu.org/licenses/>.
 #>
 
 Function Set-NinjaRmmSecrets {
@@ -49,7 +49,7 @@ Function Set-NinjaRmmServerLocation {
 	$env:NinjaRmmServerLocation = $Location
 }
 
-Function Send-NinjaRmmApi-Tool-Tool {
+Function Send-NinjaRmm-Api-Tool {
 	[CmdletBinding()]
 	Param(
 		[Parameter(Mandatory)]
@@ -107,7 +107,7 @@ Function Send-NinjaRmmApi-Tool-Tool {
 
 	# Create a user agent for logging purposes.
 	$UserAgent  = "PowerShell/$($PSVersionTable.PSVersion) "
-	$UserAgent += "NinjaRmmApi-Tool/$((Get-Module -Name 'NinjaRmmApi-Tool').Version) "
+	$UserAgent += "NinjaRmm-Api/$((Get-Module -Name 'NinjaRmm-Api').Version) "
 	$UserAgent += '(implementing API version 0.1.2)'
 
 	# Ensure that TLS 1.2 is enabled, so that we can communicate with NinjaRMM.
@@ -160,7 +160,7 @@ Function Get-NinjaRmmAlerts {
 		$Request += "/since/$Since"
 	}
 
-	Return (Send-NinjaRmmApi-Tool -RequestToSend $Request)
+	Return (Send-NinjaRmm-Api -RequestToSend $Request)
 }
 
 Function Reset-NinjaRmmAlert {
@@ -171,7 +171,7 @@ Function Reset-NinjaRmmAlert {
 		[UInt32] $AlertId
 	)
 
-	Return (Send-NinjaRmmApi-Tool -Method 'DELETE' -RequestToSend "/v1/alerts/$AlertId")
+	Return (Send-NinjaRmm-Api -Method 'DELETE' -RequestToSend "/v1/alerts/$AlertId")
 }
 
 Function Get-NinjaRmmCustomers {
@@ -185,7 +185,7 @@ Function Get-NinjaRmmCustomers {
 	If ($PSCmdlet.ParameterSetName -eq 'OneCustomer') {
 		$Request += "/$CustomerId"
 	}
-	Return (Send-NinjaRmmApi-Tool -RequestToSend $Request)
+	Return (Send-NinjaRmm-Api -RequestToSend $Request)
 }
 
 Function Get-NinjaRmmDevices {
@@ -199,5 +199,5 @@ Function Get-NinjaRmmDevices {
 	If ($PSCmdlet.ParameterSetName -eq 'OneDevice') {
 		$Request += "/$DeviceId"
 	}
-	Return (Send-NinjaRmmApi-Tool -RequestToSend $Request)
+	Return (Send-NinjaRmm-Api -RequestToSend $Request)
 }
