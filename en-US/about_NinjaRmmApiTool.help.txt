@@ -1,0 +1,24 @@
+TOPIC
+    about_NinjaRmmApiTool
+
+SHORT DESCRIPTION
+    This module is a fork of the NinjaRmmApi module by Colin Cogle, with additional features and improvements.
+
+LONG DESCRIPTION
+    NinjaRmmApiTool is an unofficial PowerShell module to interact with NinjaRMM. It includes various cmdlets
+    for managing alerts, customers, and devices within the NinjaRMM platform. This module is forked from 
+    Colin Cogle's NinjaRmmApi module and includes additional features and improvements.
+
+EXAMPLES
+    Example 1:
+    Get-NinjaRmmApiToolAlerts
+
+    Example 2:
+    Set-NinjaRmmApiToolSecrets -AccessKeyId 'your-access-key-id' -SecretAccessKey 'your-secret-access-key'
+
+LINK
+    https://github.com/kalichuza/NinjaRmmApi-Tool
+
+SEE ALSO
+    Get-NinjaRmmApiToolAlerts
+    Set-NinjaRmmApiToolSecrets

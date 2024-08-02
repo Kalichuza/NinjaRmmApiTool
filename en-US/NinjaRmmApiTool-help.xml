@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<helpItems schema="maml" xmlns="http://msh">
+  <command:command xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10">
+    <command:details>
+      <command:name>Get-NinjaRmmApiToolAlerts</command:name>
+      <maml:description>
+        <maml:para>Retrieves alerts from NinjaRMM.</maml:para>
+      </maml:description>
+      <command:verb>Get</command:verb>
+      <command:noun>NinjaRmmApiToolAlerts</command:noun>
+      <command:version>1.0.0</command:version>
+    </command:details>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-NinjaRmmApiToolAlerts</maml:name>
+        <command:parameter required="false" position="named">
+          <maml:name>AlertId</maml:name>
+          <maml:description>
+            <maml:para>Specifies the ID of the alert to retrieve.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true" defaultValue="">
+            <maml:type name="System.UInt32" />
+          </command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" position="named">
+          <maml:name>Since</maml:name>
+          <maml:description>
+            <maml:para>Specifies the ID of the alert to retrieve alerts since.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true" defaultValue="">
+            <maml:type name="System.UInt32" />
+          </command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:description>
+      <maml:para>Retrieves one or more alerts from NinjaRMM.</maml:para>
+    </command:description>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <maml:description>
+          <maml:para>Returns a list of alerts.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1</maml:title>
+        <maml:code>Get-NinjaRmmApiToolAlerts</maml:code>
+        <maml:remarks>
+          <maml:para>Retrieves all alerts.</maml:para>
+        </maml:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2</maml:title>
+        <maml:code>Get-NinjaRmmApiToolAlerts -AlertId 12345</maml:code>
+        <maml:remarks>
+          <maml:para>Retrieves the alert with ID 12345.</maml:para>
+        </maml:remarks>
+      </command:example>
+    </command:examples>
+  </command:command>
+</helpItems>
