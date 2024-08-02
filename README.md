@@ -9,7 +9,7 @@ Currntly this I have just set up this fork as a staging ground and will release 
 ## Installation
 ```powershell
 Install-Module -Name NinjaRmmApi-Tool
-
+```
 
 **Below, you will find the documentation to the original tool.
 <hr>
