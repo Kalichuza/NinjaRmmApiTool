@@ -1,4 +1,4 @@
-# NinjaRmmApi-Tool
+# NinjaRmmApiTool
 
 This module is a fork of the [NinjaRmmApi](https://github.com/rhymeswithmogul/NinjaRMM-PowerShell) module by [Colin Cogle](https://github.com/rhymeswithmogul).
 
@@ -8,7 +8,7 @@ Currntly this I have just set up this fork as a staging ground and will release 
 
 ## Installation
 ```powershell
-Install-Module -Name NinjaRmmApi-Tool
+Install-Module -Name NinjaRmmApiTool
 ```
 
 **Below, you will find the documentation to the original tool.
