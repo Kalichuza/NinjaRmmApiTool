@@ -14,7 +14,7 @@ Install-Module -Name NinjaRmmApi-Tool
 **Below, you will find the documentation to the original tool.
 <hr>
 
-![NinjaRmmApi logo](https://raw.githubusercontent.com/rhymeswithmogul/NinjaRMM-PowerShell/main/NinjaRmmApi.png)
+![NinjaRmmApi logo](https://github.com/Kalichuza/NinjaRmm-Api/blob/main/NinjaRmm-Api.png?raw=true)
 # NinjaRmmApi
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/CODE_OF_CONDUCT.md) 
 
