@@ -12,15 +12,6 @@ Function Set-NinjaSecrets {
     $global:NinjaRmmSecretAccessKey = $SecretAccessKey
 }
 
-Function Reset-NinjaSecrets {
-    [Alias('Remove-NinjaSecrets')]
-    [OutputType('void')]
-    Param()
-
-    Remove-Variable -Name $global:NinjaRmmAccessKeyID
-    Remove-Variable -Name $global:NinjaRmmSecretAccessKey
-}
-
 Function Set-NinjaServerLocation {
     [OutputType('void')]
     Param(
@@ -49,41 +40,6 @@ Function Set-NinjaScope {
     )
 
     $global:NinjaRmmScope = $Scope
-}
-
-Function Get-AccessToken {
-    param (
-        [Parameter(Mandatory = $true)]
-        [String] $TokenUrl,
-
-        [Parameter(Mandatory = $true)]
-        [String] $ClientID,
-
-        [Parameter(Mandatory = $true)]
-        [String] $ClientSecret
-    )
-
-    # Use the global scope variable
-    $Scope = $global:NinjaRmmScope
-
-    $Body = "grant_type=client_credentials&client_id=$([uri]::EscapeDataString($ClientID))&client_secret=$([uri]::EscapeDataString($ClientSecret))&scope=$([uri]::EscapeDataString($Scope))"
-    $Headers = @{
-        'Content-Type' = 'application/x-www-form-urlencoded'
-    }
-
-    Write-Verbose "Request Body: $Body"
-    Write-Verbose "Request Headers: $($Headers | Out-String)"
-
-    try {
-        $Response = Invoke-RestMethod -Uri $TokenUrl -Method Post -Headers $Headers -Body $Body
-        Write-Verbose "Authentication successful. Access token retrieved."
-        return $Response.access_token
-    }
-    catch {
-        Write-Error "Error in getting access token: $($_.Exception.Response.StatusCode) $($_.Exception.Response.StatusDescription)"
-        Write-Error "Detailed Error: $($_.Exception.Message)"
-        return $null
-    }
 }
 
 Function Send-NinjaRequest {
@@ -161,6 +117,41 @@ Function Send-NinjaRequest {
     Return (Invoke-RestMethod @Arguments)
 }
 
+Function Get-AccessToken {
+    param (
+        [Parameter(Mandatory = $true)]
+        [String] $TokenUrl,
+
+        [Parameter(Mandatory = $true)]
+        [String] $ClientID,
+
+        [Parameter(Mandatory = $true)]
+        [String] $ClientSecret
+    )
+
+    # Use the global scope variable
+    $Scope = $global:NinjaRmmScope
+
+    $Body = "grant_type=client_credentials&client_id=$([uri]::EscapeDataString($ClientID))&client_secret=$([uri]::EscapeDataString($ClientSecret))&scope=$([uri]::EscapeDataString($Scope))"
+    $Headers = @{
+        'Content-Type' = 'application/x-www-form-urlencoded'
+    }
+
+    Write-Verbose "Request Body: $Body"
+    Write-Verbose "Request Headers: $($Headers | Out-String)"
+
+    try {
+        $Response = Invoke-RestMethod -Uri $TokenUrl -Method Post -Headers $Headers -Body $Body
+        Write-Verbose "Authentication successful. Access token retrieved."
+        return $Response.access_token
+    }
+    catch {
+        Write-Error "Error in getting access token: $($_.Exception.Response.StatusCode) $($_.Exception.Response.StatusDescription)"
+        Write-Error "Detailed Error: $($_.Exception.Message)"
+        return $null
+    }
+}
+
 Function Get-NinjaAlerts {
     [CmdletBinding(DefaultParameterSetName = 'AllAlerts')]
     Param(
@@ -201,24 +192,6 @@ Function Get-NinjaAlerts {
     }
 
     return $alerts
-}
-Function Reset-NinjaAlert {
-    [CmdletBinding()]
-    [Alias('Remove-NinjaAlert')]
-    Param(
-        [Parameter(Mandatory)]
-        [String] $AlertId
-    )
-
-    $Request = "/v2/alert/$AlertId/reset"
-    $Headers = @{
-        'accept'       = '*/*'
-        'Content-Type' = 'application/json'
-    }
-    $Body = '{}' # Empty JSON body
-
-    Write-Verbose "Sending request to: $Request"
-    Return (Send-NinjaRequest -Method 'POST' -RequestToSend $Request -Headers $Headers -Body $Body)
 }
 
 Function Get-NinjaCustomers {
@@ -284,3 +257,29 @@ Function Get-NinjaDevices {
     return $devices
 }
 
+Function Reset-NinjaAlert {
+    [CmdletBinding()]
+    [Alias('Remove-NinjaAlert')]
+    Param(
+        [Parameter(Mandatory)]
+        [String] $AlertId
+    )
+
+    $Request = "/v2/alert/$AlertId/reset"
+    $Headers = @{
+        'accept'       = '*/*'
+        'Content-Type' = 'application/json'
+    }
+    $Body = '{}' # Empty JSON body
+
+    Write-Verbose "Sending request to: $Request"
+    Return (Send-NinjaRequest -Method 'POST' -RequestToSend $Request -Headers $Headers -Body $Body)
+}
+Function Reset-NinjaSecrets {
+    [Alias('Remove-NinjaSecrets')]
+    [OutputType('void')]
+    Param()
+
+    Remove-Variable -Name $global:NinjaRmmAccessKeyID
+    Remove-Variable -Name $global:NinjaRmmSecretAccessKey
+}
