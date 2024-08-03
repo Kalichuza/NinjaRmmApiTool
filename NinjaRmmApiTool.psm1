@@ -1,21 +1,3 @@
-<#
-This file is part of the NinjaRmmApiTool module.
-This module is not affiliated with, endorsed by, or related to NinjaRMM, LLC.
-
-NinjaRmmApiTool is free software:  you can redistribute it and/or modify it under
-the terms of the GNU Affero General Public License as published by the Free
-Software Foundation, either version 3 of the License, or (at your option) any
-later version.
-
-NinjaRmmApiTool is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY;  without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more
-details.
-
-You should have received a copy of the GNU Affero General Public License along
-with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
-#>
-
 Function Set-NinjaRmmApiToolSecrets {
 	[OutputType('void')]
 	Param(
@@ -26,8 +8,8 @@ Function Set-NinjaRmmApiToolSecrets {
 		[String] $SecretAccessKey
 	)
 
-	$env:NinjaRmmAccessKeyID     = $AccessKeyId
-	$env:NinjaRmmSecretAccessKey = $SecretAccessKey
+	$global:NinjaRmmAccessKeyID = $AccessKeyId
+	$global:NinjaRmmSecretAccessKey = $SecretAccessKey
 }
 
 Function Reset-NinjaRmmApiToolSecrets {
@@ -35,8 +17,8 @@ Function Reset-NinjaRmmApiToolSecrets {
 	[OutputType('void')]
 	Param()
 
-	Remove-Variable -Name $env:NinjaRmmAccessKeyID
-	Remove-Variable -Name $env:NinjaRmmSecretAccessKey
+	Remove-Variable -Name $global:NinjaRmmAccessKeyID
+	Remove-Variable -Name $global:NinjaRmmSecretAccessKey
 }
 
 Function Set-NinjaRmmApiToolServerLocation {
@@ -46,8 +28,78 @@ Function Set-NinjaRmmApiToolServerLocation {
 		[String] $Location = 'US'
 	)
 
-	$env:NinjaRmmServerLocation = $Location
+	$global:NinjaRmmServerLocation = $Location
 }
+
+Function Set-NinjaRmmApiToolOAuthEndpoint {
+	[OutputType('void')]
+	Param(
+		[Parameter(Mandatory = $true)]
+		[String] $OAuthEndpoint
+	)
+
+	$global:NinjaRmmOAuthEndpoint = $OAuthEndpoint
+}
+
+Function Get-AccessToken {
+	param (
+		[Parameter(Mandatory = $true)]
+		[String] $TokenUrl,
+
+		[Parameter(Mandatory = $true)]
+		[String] $ClientID,
+
+		[Parameter(Mandatory = $true)]
+		[String] $ClientSecret,
+
+		[String] $Scope = 'monitoring'
+	)
+
+	$Body = @{
+		grant_type    = 'client_credentials'
+		client_id     = $ClientID
+		client_secret = $ClientSecret
+		scope         = $Scope
+	}
+
+	$Body = $Body.GetEnumerator() | ForEach-Object { "$($_.Key)=$($([uri]::EscapeDataString($_.Value)))" } -join "&"
+	$Headers = @{
+		'Content-Type' = 'application/x-www-form-urlencoded'
+	}
+
+	Write-Verbose "Request Body: $Body"
+	Write-Verbose "Request Headers: $($Headers | Out-String)"
+
+	try {
+		$Response = Invoke-RestMethod -Uri $TokenUrl -Method Post -Headers $Headers -Body $Body
+		Write-Verbose "Authentication successful. Access token retrieved."
+		return $Response.access_token
+	}
+ catch {
+		Write-Error "Error in getting access token: $($_.Exception.Response.StatusCode) $($_.Exception.Response.StatusDescription)"
+		Write-Error "Detailed Error: $($_.Exception.Message)"
+		return $null
+	}
+}
+
+Function Get-NinjaRmmApiToolCustomers {
+	[CmdletBinding()]
+	Param(
+		[Parameter(ParameterSetName = 'OneCustomer')]
+		[UInt32] $CustomerId,
+
+		[Parameter(ParameterSetName = 'AllCustomers')]
+		[UInt32] $PageSize = 10
+	)
+
+	$Request = "/v2/organizations?pageSize=$PageSize"
+	If ($PSCmdlet.ParameterSetName -eq 'OneCustomer') {
+		$Request = "/v2/organizations/$CustomerId"
+	}
+
+	Return (Send-NinjaRmmApiTool -RequestToSend $Request)
+}
+
 
 Function Send-NinjaRmmApiTool {
 	[CmdletBinding()]
@@ -61,52 +113,34 @@ Function Send-NinjaRmmApiTool {
 	)
 
 	# Stop if our secrets have not been learned.
-	If ($null -eq $env:NinjaRmmSecretAccessKey) {
+	If ($null -eq $global:NinjaRmmSecretAccessKey) {
 		Throw [Data.NoNullAllowedException]::new('No secret access key has been provided.  Please run Set-NinjaRmmApiToolSecrets.')
 	}
-	If ($null -eq $env:NinjaRmmAccessKeyID) {
+	If ($null -eq $global:NinjaRmmAccessKeyID) {
 		Throw [Data.NoNullAllowedException]::new('No access key ID has been provided.  Please run Set-NinjaRmmApiToolSecrets.')
 	}
 
-	# Get the current date.  Calling -Format converts it to a [String], so we
-	# need two separate calls to Get-Date.
-	$DateString = Get-Date -Format 'R' -Date ((Get-Date).ToUniversalTime())
-	
-	# Format our signing string correctly.
-	# NinjaRMM's signature has a place to put Content-MD5 and Content-Type
-	# values, but leaving them out ($null) seems to be perfectly acceptable.
-	$ContentMD5   = $null
-	$ContentType  = $null
-	$StringToSign = @($Method, $ContentMD5, $ContentType, $DateString, $RequestToSend) -Join "`n"
+	# Get the access token
+	$AccessToken = Get-AccessToken -TokenUrl $global:NinjaRmmOAuthEndpoint -ClientID $global:NinjaRmmAccessKeyID -ClientSecret $global:NinjaRmmSecretAccessKey
 
-	# Convert your string to a byte array, and then Base64-encode it.
-	# Not sure why we're removing newlines, but Ninja's example C# code did it.
-	$StringToSignBytes = [Text.Encoding]::UTF8.GetBytes($StringToSign)
-	$EncodedString = ([Convert]::ToBase64String($StringToSignBytes)).Trim()
+	If ($null -eq $AccessToken) {
+		Throw [System.Exception]::new('Failed to retrieve access token.')
+	}
 
-	# Construct our HMAC-SHA1 thing, then convert *it* to Base64 as well.
-	# Sample: https://stackoverflow.com/questions/42150420/why-does-encrypting-hmac-sha1-in-exactly-the-same-code-in-c-sharp-and-powershell
-	$Hasher = [Security.Cryptography.KeyedHashAlgorithm]::Create('HMACSHA1')
-	$Hasher.Key = [Text.Encoding]::UTF8.GetBytes($env:NinjaRmmSecretAccessKey)
-	$HashedStringBytes= $Hasher.ComputeHash([Text.Encoding]::UTF8.GetBytes($EncodedString))
-
-	# Convert the result to a Base64 string.
-	$Signature = [Convert]::ToBase64String($HashedStringBytes) -Replace "`n",""
-	
 	# Pick our server.  By default, we will use the United States server.
 	# However, the European Union server can be used instead.'
-	If (($env:NinjaRmmServerLocation -eq 'US') -or ($null -eq $env:NinjaRmmServerLocation)) {
+	If (($global:NinjaRmmServerLocation -eq 'US') -or ($null -eq $global:NinjaRmmServerLocation)) {
 		$HostName = 'api.ninjarmm.com'
 	}
-	ElseIf ($env:NinjaRmmServerLocation -eq 'EU') {
+	ElseIf ($global:NinjaRmmServerLocation -eq 'EU') {
 		$HostName = 'eu-api.ninjarmm.com'
 	}
 	Else {
-		Throw [ArgumentException]::new("The server location ${env:NinjaRmmServerLocation} is not valid.  Please run Set-NinjaRmmApiToolServerLocation.")
+		Throw [ArgumentException]::new("The server location ${global:NinjaRmmServerLocation} is not valid.  Please run Set-NinjaRmmApiToolServerLocation.")
 	}
 
 	# Create a user agent for logging purposes.
-	$UserAgent  = "PowerShell/$($PSVersionTable.PSVersion) "
+	$UserAgent = "PowerShell/$($PSVersionTable.PSVersion) "
 	$UserAgent += "NinjaRmmApiTool/$((Get-Module -Name 'NinjaRmmApiTool').Version) "
 	$UserAgent += '(implementing API version 0.1.2)'
 
@@ -122,18 +156,16 @@ Function Send-NinjaRmmApiTool {
 
 	# Finally, send it.
 	Write-Debug -Message ("Will send the request:`n`n" `
-		+ "$Method $RequestToSend HTTP/1.1`n" `
-		+ "Host: $HostName`n" `
-		+ "Authorization: NJ ${env:NinjaRmmAccessKeyID}:$Signature`n" `
-		+ "Date: $DateString`n" `
-		+ "User-Agent: $UserAgent")
+			+ "$Method $RequestToSend HTTP/1.1`n" `
+			+ "Host: $HostName`n" `
+			+ "Authorization: Bearer $AccessToken`n" `
+			+ "User-Agent: $UserAgent")
 
 	$Arguments = @{
 		'Method'  = $Method
 		'Uri'     = "https://$HostName$RequestToSend"
 		'Headers' = @{
-			'Authorization' = "NJ ${env:NinjaRmmAccessKeyID}:$Signature"
-			'Date'          = $DateString
+			'Authorization' = "Bearer $AccessToken"
 			'Host'          = $HostName
 			'User-Agent'    = $UserAgent
 		}
@@ -143,12 +175,12 @@ Function Send-NinjaRmmApiTool {
 }
 
 Function Get-NinjaRmmApiToolAlerts {
-	[CmdletBinding(DefaultParameterSetName='AllAlerts')]
+	[CmdletBinding(DefaultParameterSetName = 'AllAlerts')]
 	Param(
-		[Parameter(ParameterSetName='OneAlert')]
+		[Parameter(ParameterSetName = 'OneAlert')]
 		[UInt32] $AlertId,
 
-		[Parameter(ParameterSetName='AllAlertsSince')]
+		[Parameter(ParameterSetName = 'AllAlertsSince')]
 		[UInt32] $Since
 	)
 
@@ -175,23 +207,28 @@ Function Reset-NinjaRmmApiToolAlert {
 }
 
 Function Get-NinjaRmmApiToolCustomers {
-	[CmdletBinding(DefaultParameterSetName='AllCustomers')]
+	[CmdletBinding(DefaultParameterSetName = 'AllCustomers')]
 	Param(
-		[Parameter(ParameterSetName='OneCustomer')]
-		[UInt32] $CustomerId
+		[Parameter(ParameterSetName = 'OneCustomer')]
+		[UInt32] $CustomerId,
+
+		[Parameter(ParameterSetName = 'AllCustomers')]
+		[UInt32] $PageSize = 10
 	)
 
-	$Request = '/v1/customers'
+	$Request = "/v2/organizations?pageSize=$PageSize"
 	If ($PSCmdlet.ParameterSetName -eq 'OneCustomer') {
-		$Request += "/$CustomerId"
+		$Request = "/v2/organizations/$CustomerId"
 	}
+
 	Return (Send-NinjaRmmApiTool -RequestToSend $Request)
 }
 
+
 Function Get-NinjaRmmApiToolDevices {
-	[CmdletBinding(DefaultParameterSetName='AllDevices')]
+	[CmdletBinding(DefaultParameterSetName = 'AllDevices')]
 	Param(
-		[Parameter(ParameterSetName='OneDevice')]
+		[Parameter(ParameterSetName = 'OneDevice')]
 		[UInt32] $DeviceId
 	)
 

@@ -18,12 +18,12 @@ with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
 
 @{
     RootModule = 'NinjaRmmApiTool.psm1'
-    ModuleVersion = '1.0.1'  # Incremented version number
+    ModuleVersion = '1.0.1'  # Incremented version number for new changes
     CompatiblePSEditions = @('Desktop', 'Core')
-    PowerShellVersion = '5.1'
+    PowerShellVersion = '5.1'  # Ensure compatibility with PowerShell 5.1 and above
     GUID = 'aaa3b5ab-8861-4ce4-b0aa-f2089dee9cf2'
-    Author = 'Your Name'
-    Description = 'An unofficial PowerShell module to interact with NinjaRMM. Forked from Colin Cogle''s NinjaRmmApi.'
+    Author = 'Kalichuza'
+    Description = 'A very unofficial PowerShell module to interact with NinjaRMM. Forked from Colin Cogle''s NinjaRmmApi.'
     FunctionsToExport = @(
         'Get-NinjaRmmApiToolAlerts',
         'Get-NinjaRmmApiToolCustomers',
@@ -31,7 +31,8 @@ with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
         'Reset-NinjaRmmApiToolAlert',
         'Reset-NinjaRmmApiToolSecrets',
         'Set-NinjaRmmApiToolSecrets',
-        'Set-NinjaRmmApiToolServerLocation'
+        'Set-NinjaRmmApiToolServerLocation',
+        'Set-NinjaRmmApiToolOAuthEndpoint'
     )
     CmdletsToExport = @()
     VariablesToExport = @()
