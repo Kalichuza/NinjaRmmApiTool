@@ -11,14 +11,14 @@ LONG DESCRIPTION
 
 EXAMPLES
     Example 1:
-    Get-NinjaRmmApiToolAlerts
+    Get-NinjalAlerts
 
     Example 2:
-    Set-NinjaRmmApiToolSecrets -AccessKeyId 'your-access-key-id' -SecretAccessKey 'your-secret-access-key'
+    Set-NinjaSecrets -AccessKeyId 'your-access-key-id' -SecretAccessKey 'your-secret-access-key'
 
 LINK
     https://github.com/kalichuza/NinjaRmmApi-Tool
 
 SEE ALSO
-    Get-NinjaRmmApiToolAlerts
-    Set-NinjaRmmApiToolSecrets
+    Get-NinjaAlerts
+    Set-NinjaSecrets
