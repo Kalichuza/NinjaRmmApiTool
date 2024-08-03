@@ -75,24 +75,6 @@ Function Get-AccessToken {
     }
 }
 
-Function Get-NinjaCustomers {
-    [CmdletBinding()]
-    Param(
-        [Parameter(ParameterSetName = 'OneCustomer')]
-        [UInt32] $CustomerId,
-
-        [Parameter(ParameterSetName = 'AllCustomers')]
-        [UInt32] $PageSize = 10
-    )
-
-    $Request = "/v2/organizations?pageSize=$PageSize"
-    If ($PSCmdlet.ParameterSetName -eq 'OneCustomer') {
-        $Request = "/v2/organizations/$CustomerId"
-    }
-
-    Return (Send-NinjaRequest -RequestToSend $Request)
-}
-
 Function Send-NinjaRequest {
     [CmdletBinding()]
     Param(
