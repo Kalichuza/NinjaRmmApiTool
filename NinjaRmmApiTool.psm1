@@ -10,6 +10,7 @@ Function Set-NinjaSecrets {
 
     $global:NinjaRmmAccessKeyID = $AccessKeyId
     $global:NinjaRmmSecretAccessKey = $SecretAccessKey
+    Write-Host "Your secrets have been set."
 }
 
 Function Set-NinjaServerLocation {
@@ -30,6 +31,7 @@ Function Set-NinjaOAuthEndpoint {
     )
 
     $global:NinjaRmmOAuthEndpoint = $OAuthEndpoint
+    Write-Host "Your Oauth endpoint has been set."
 }
 
 Function Set-NinjaScope {
@@ -288,6 +290,7 @@ Function Reset-NinjaAlert {
 
     Write-Verbose "Sending request to: $Request"
     Return (Send-NinjaRequest -Method 'POST' -RequestToSend $Request -Headers $Headers -Body $Body)
+    Write-Host "The selected alert has been reset."
 }
 
 Function Reset-NinjaSecrets {
@@ -297,6 +300,7 @@ Function Reset-NinjaSecrets {
 
     Remove-Variable -Name $global:NinjaRmmAccessKeyID
     Remove-Variable -Name $global:NinjaRmmSecretAccessKey
+    Write-Host "Secrets have been reset"
 }
 
 Function Reboot-NinjaDevice {
