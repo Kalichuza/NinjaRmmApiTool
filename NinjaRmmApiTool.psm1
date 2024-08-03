@@ -195,7 +195,7 @@ Function Get-NinjaCustomers {
         [UInt32] $CustomerId,
 
         [Parameter(ParameterSetName='AllCustomers')]
-        [UInt32] $PageSize = 10
+        [UInt32] $PageSize = 50
     )
 
     $Request = "/v2/organizations?pageSize=$PageSize"
@@ -212,7 +212,7 @@ Function Get-NinjaDevices {
         [UInt32] $DeviceId,
 
         [Parameter(ParameterSetName='AllDevices')]
-        [UInt32] $PageSize = 25
+        [UInt32] $PageSize = 500
     )
 
     $Request = "/v2/devices?pageSize=$PageSize"
