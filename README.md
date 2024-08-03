@@ -4,7 +4,7 @@ This module is a fork of the [NinjaRmmApi](https://github.com/rhymeswithmogul/Ni
 
 ## Changes
 
-Currently, a work in progress.Although, the tools are mostly working. Please report any hickups. Almost ready to publish version 1.01 on PS Gallery. 
+Version 1.0.1 up now on PSGallery 
 ## Installation
 ```powershell
 Install-Module -Name NinjaRmmApiTool
