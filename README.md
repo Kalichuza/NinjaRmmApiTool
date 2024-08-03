@@ -20,7 +20,7 @@ Install-Module -Name NinjaRmmApiTool
 A PowerShell module to interact with [the NinjaRMM Public API](https://www.ninjarmm.com/dev-api/).  This currently complies with [beta version 0.1.2 of the specification](https://ninjaresources.s3.amazonaws.com/PublicApi/0.1.2/NinjaRMM%20Public%20API%20v0.1.2.pdf).
 
 ## Installing this module
-This module is available in [PowerShell Gallery](https://www.powershellgallery.com/packages/NinjaRmmApi):
+This module will soon be available in [PowerShell Gallery](https://www.powershellgallery.com/packages/NinjaRmmApi):
 ```powershell
 PS C:\> Install-Module NinjaRmmApiTool
 ```
