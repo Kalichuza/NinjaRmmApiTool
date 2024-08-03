@@ -4,7 +4,7 @@ This module is a fork of the [NinjaRmmApi](https://github.com/rhymeswithmogul/Ni
 
 ## Changes
 
-Currntly, a work in progress. Will Publish officially soon
+Currently, a work in progress. Will Publish officially soon
 
 ## Installation
 ```powershell
@@ -37,6 +37,11 @@ You will need to do this every time you start a new PowerShell session;  this mo
 
 ## Using this module
 Now that that's been done, start using their API!
+### Scope
+Note that there are two options when it comes to the scope of the Oauth tokens. They are, ```monitoring``` and ```management```. For now these are the only two you will need. Generally anything that is ia simple query, use the ```monitoring``` scope. When making any changes, use ```management```. I'm currently working on working that in so that each function knows which scope it needs and runs that authentication flow without user input. For now, here is an example of how to set the scope:
+```powershell
+Set-NijnaScope -Scope 'monitoring'
+```
 
 ### Customers
 You can look up customer information with the `Get-NinjaCustomers` cmdlet.  With no arguments, it returns a list of all customers.  You can also use the -CustomerID parameter to fetch a specific customer.  The NinjaRMM API returns data as objects that you can parse with other PowerShell cmdlets like `Format-List` and `Select-Object` (and, of course, everyone's favorite, `Out-GridView`!).
