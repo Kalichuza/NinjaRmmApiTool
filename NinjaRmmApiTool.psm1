@@ -42,45 +42,39 @@ Function Set-NinjaRmmApiToolOAuthEndpoint {
 }
 
 Function Get-AccessToken {
-	param (
-		[Parameter(Mandatory = $true)]
-		[String] $TokenUrl,
+    param (
+        [Parameter(Mandatory = $true)]
+        [String] $TokenUrl,
 
-		[Parameter(Mandatory = $true)]
-		[String] $ClientID,
+        [Parameter(Mandatory = $true)]
+        [String] $ClientID,
 
-		[Parameter(Mandatory = $true)]
-		[String] $ClientSecret,
+        [Parameter(Mandatory = $true)]
+        [String] $ClientSecret,
 
-		[String] $Scope = 'monitoring'
-	)
+        [String] $Scope = 'monitoring'
+    )
 
-	$Body = @{
-		grant_type    = 'client_credentials'
-		client_id     = $ClientID
-		client_secret = $ClientSecret
-		scope         = $Scope
-	}
+    $Body = "grant_type=client_credentials&client_id=$([uri]::EscapeDataString($ClientID))&client_secret=$([uri]::EscapeDataString($ClientSecret))&scope=$([uri]::EscapeDataString($Scope))"
+    $Headers = @{
+        'Content-Type' = 'application/x-www-form-urlencoded'
+    }
 
-	$Body = $Body.GetEnumerator() | ForEach-Object { "$($_.Key)=$($([uri]::EscapeDataString($_.Value)))" } -join "&"
-	$Headers = @{
-		'Content-Type' = 'application/x-www-form-urlencoded'
-	}
+    Write-Verbose "Request Body: $Body"
+    Write-Verbose "Request Headers: $($Headers | Out-String)"
 
-	Write-Verbose "Request Body: $Body"
-	Write-Verbose "Request Headers: $($Headers | Out-String)"
-
-	try {
-		$Response = Invoke-RestMethod -Uri $TokenUrl -Method Post -Headers $Headers -Body $Body
-		Write-Verbose "Authentication successful. Access token retrieved."
-		return $Response.access_token
-	}
- catch {
-		Write-Error "Error in getting access token: $($_.Exception.Response.StatusCode) $($_.Exception.Response.StatusDescription)"
-		Write-Error "Detailed Error: $($_.Exception.Message)"
-		return $null
-	}
+    try {
+        $Response = Invoke-RestMethod -Uri $TokenUrl -Method Post -Headers $Headers -Body $Body
+        Write-Verbose "Authentication successful. Access token retrieved."
+        return $Response.access_token
+    }
+    catch {
+        Write-Error "Error in getting access token: $($_.Exception.Response.StatusCode) $($_.Exception.Response.StatusDescription)"
+        Write-Error "Detailed Error: $($_.Exception.Message)"
+        return $null
+    }
 }
+
 
 Function Get-NinjaRmmApiToolCustomers {
 	[CmdletBinding()]
@@ -226,15 +220,20 @@ Function Get-NinjaRmmApiToolCustomers {
 
 
 Function Get-NinjaRmmApiToolDevices {
-	[CmdletBinding(DefaultParameterSetName = 'AllDevices')]
-	Param(
-		[Parameter(ParameterSetName = 'OneDevice')]
-		[UInt32] $DeviceId
-	)
+    [CmdletBinding(DefaultParameterSetName='AllDevices')]
+    Param(
+        [Parameter(ParameterSetName='OneDevice')]
+        [UInt32] $DeviceId,
 
-	$Request = '/v1/devices'
-	If ($PSCmdlet.ParameterSetName -eq 'OneDevice') {
-		$Request += "/$DeviceId"
-	}
-	Return (Send-NinjaRmmApiTool -RequestToSend $Request)
+        [Parameter(ParameterSetName='AllDevices')]
+        [UInt32] $PageSize = 25
+    )
+
+    $Request = "/v2/devices?pageSize=$PageSize"
+    If ($PSCmdlet.ParameterSetName -eq 'OneDevice') {
+        $Request = "/v2/devices/$DeviceId"
+    }
+
+    Return (Send-NinjaRmmApiTool -RequestToSend $Request)
 }
+
