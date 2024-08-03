@@ -25,20 +25,20 @@ with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
     Author = 'Kalichuza'
     Description = 'A very unofficial PowerShell module to interact with NinjaRMM. Forked from Colin Cogle''s NinjaRmmApi.'
     FunctionsToExport = @(
-        'Get-NinjaRmmApiToolAlerts',
-        'Get-NinjaRmmApiToolCustomers',
-        'Get-NinjaRmmApiToolDevices',
-        'Reset-NinjaRmmApiToolAlert',
-        'Reset-NinjaRmmApiToolSecrets',
-        'Set-NinjaRmmApiToolSecrets',
-        'Set-NinjaRmmApiToolServerLocation',
-        'Set-NinjaRmmApiToolOAuthEndpoint'
+        'Get-NinjaAlerts',
+        'Get-NinjaCustomers',
+        'Get-NinjaDevices',
+        'Reset-NinjaAlert',
+        'Reset-NinjaSecrets',
+        'Set-NinjaSecrets',
+        'Set-NinjaServerLocation',
+        'Set-NinjaOAuthEndpoint'
     )
     CmdletsToExport = @()
     VariablesToExport = @()
     AliasesToExport = @(
-        'Remove-NinjaRmmApiToolAlert',
-        'Remove-NinjaRmmApiToolSecrets'
+        'Remove-NinjaAlert',
+        'Remove-NinjaSecrets'
     )
     FileList = @(
         'en-US/about_NinjaRmmApiTool.help.txt',
