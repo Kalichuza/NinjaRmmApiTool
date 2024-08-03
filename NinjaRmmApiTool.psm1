@@ -298,8 +298,9 @@ Function Reset-NinjaSecrets {
     [OutputType('void')]
     Param()
 
-    Remove-Variable -Name $global:NinjaRmmAccessKeyID
-    Remove-Variable -Name $global:NinjaRmmSecretAccessKey
+    Remove-Variable -Name 'NinjaRmmAccessKeyID' -Scope Global -ErrorAction SilentlyContinue
+    Remove-Variable -Name 'NinjaRmmSecretAccessKey' -Scope Global -ErrorAction SilentlyContinue
+    Remove-Variable -Name 'NinjaRmmScope' -Scope Global -ErrorAction SilentlyContinue
     Write-Host "Secrets have been reset"
 }
 
