@@ -52,9 +52,7 @@ Function Send-NinjaRequest {
         [ValidateSet('GET', 'PUT', 'POST', 'DELETE')]
         [String] $Method = 'GET',
 
-        [Hashtable] $Headers = $null,
-
-        [String] $Body = $null
+        [Hashtable] $Body = $null
     )
 
     If ($null -eq $global:NinjaRmmSecretAccessKey) {
@@ -90,32 +88,34 @@ Function Send-NinjaRequest {
         [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls13
     }
 
+    $Uri = "https://$HostName$RequestToSend"
+
+    $Headers = @{
+        'Authorization' = "Bearer $AccessToken"
+        'Host'          = $HostName
+        'User-Agent'    = $UserAgent
+    }
+
+    $Arguments = @{
+        'Method'  = $Method
+        'Uri'     = $Uri
+        'Headers' = $Headers
+    }
+
+    If ($Body -ne $null) {
+        $Arguments['Body'] = ($Body | ConvertTo-Json)
+        $Arguments['ContentType'] = 'application/json'
+    }
+
     Write-Debug -Message ("Will send the request:`n`n" `
             + "$Method $RequestToSend HTTP/1.1`n" `
             + "Host: $HostName`n" `
             + "Authorization: Bearer $AccessToken`n" `
             + "User-Agent: $UserAgent")
 
-    $Arguments = @{
-        'Method'  = $Method
-        'Uri'     = "https://$HostName$RequestToSend"
-        'Headers' = @{
-            'Authorization' = "Bearer $AccessToken"
-            'Host'          = $HostName
-            'User-Agent'    = $UserAgent
-        }
-    }
-
-    if ($Headers) {
-        $Arguments['Headers'] += $Headers
-    }
-
-    if ($Body) {
-        $Arguments['Body'] = $Body
-    }
-
     Return (Invoke-RestMethod @Arguments)
 }
+
 
 Function Get-AccessToken {
     param (
@@ -282,4 +282,26 @@ Function Reset-NinjaSecrets {
 
     Remove-Variable -Name $global:NinjaRmmAccessKeyID
     Remove-Variable -Name $global:NinjaRmmSecretAccessKey
+}
+
+Function Reboot-NinjaDevice {
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory = $true)]
+        [UInt32] $DeviceId,
+
+        [Parameter(Mandatory = $true)]
+        [String] $Reason,
+
+        [Parameter()]
+        [ValidateSet('NORMAL', 'FORCED')]
+        [String] $RebootType = 'NORMAL'
+    )
+
+    $Request = "/v2/device/$DeviceId/reboot/$RebootType"
+    $Body = @{
+        reason = $Reason
+    }
+
+    Return (Send-NinjaRequest -Method 'POST' -RequestToSend $Request -Body $Body)
 }

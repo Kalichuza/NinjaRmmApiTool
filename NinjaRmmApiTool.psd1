@@ -33,7 +33,8 @@ with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
         'Set-NinjaSecrets',
         'Set-NinjaServerLocation',
         'Set-NinjaOAuthEndpoint',
-        'Set-NinjaScope'
+        'Set-NinjaScope',
+        'Reboot-NinjaDevice'
     )
     CmdletsToExport = @()
     VariablesToExport = @()
