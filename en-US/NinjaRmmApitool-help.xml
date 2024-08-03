@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <helpItems schema="maml" xmlns="http://msh">
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Get-NinjaRmmAlerts</command:name>
+      <command:name>Get-NinjaAlerts</command:name>
       <command:verb>Get</command:verb>
-      <command:noun>NinjaRmmAlerts</command:noun>
+      <command:noun>NinjaAlerts</command:noun>
       <maml:description>
         <maml:para>Get alerts from NinjaRMM.</maml:para>
       </maml:description>
@@ -15,7 +15,7 @@
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Get-NinjaRmmAlerts</maml:name>
+        <maml:name>Get-NinjaAlerts</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AlertId</maml:name>
           <maml:Description>
@@ -30,7 +30,7 @@
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
-        <maml:name>Get-NinjaRmmAlerts</maml:name>
+        <maml:name>Get-NinjaAlerts</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Since</maml:name>
           <maml:Description>
@@ -93,27 +93,27 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Before you can use this cmdlet, you will need to run Set-NinjaRmmSecrets.</maml:para>
+        <maml:para>Before you can use this cmdlet, you will need to run Set-NinjaSecrets.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-NinjaRmmAlerts</dev:code>
+        <dev:code>PS C:\&gt; Get-NinjaAlerts</dev:code>
         <dev:remarks>
           <maml:para>Retrieve all alerts.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-NinjaRmmAlerts -Since 1234567</dev:code>
+        <dev:code>PS C:\&gt; Get-NinjaAlerts -Since 1234567</dev:code>
         <dev:remarks>
           <maml:para>Retrieve all alerts that have happened since alert ID 1234567 was logged.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 3 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-NinjaRmmAlerts | Where {$_.Role -eq 'WINDOWS_WORKSTATION'} | Format-List</dev:code>
+        <dev:code>PS C:\&gt; Get-NinjaAlerts | Where {$_.Role -eq 'WINDOWS_WORKSTATION'} | Format-List</dev:code>
         <dev:remarks>
           <maml:para>Retrieve all alerts that have happened on a Windows workstation.  This module converts the API results into native PowerShell objects that can be parsed, filtered, and manipulated with other cmdlets.</maml:para>
         </dev:remarks>
@@ -122,27 +122,27 @@
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/man/en-US/Get-NinjaRmmAlerts.md</maml:uri>
+        <maml:uri>https://github.com/kalichuza/NinjaRmmApiTool/blob/main/man/en-US/Get-NinjaAlerts.md</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>about_NinjaRmmApi</maml:linkText>
+        <maml:linkText>about_NinjaApi</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Reset-NinjaRmmAlert</maml:linkText>
+        <maml:linkText>Reset-NinjaAlert</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Set-NinjaRmmSecrets</maml:linkText>
+        <maml:linkText>Set-NinjaSecrets</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Get-NinjaRmmCustomers</command:name>
+      <command:name>Get-NinjaCustomers</command:name>
       <command:verb>Get</command:verb>
-      <command:noun>NinjaRmmCustomers</command:noun>
+      <command:noun>NinjaCustomers</command:noun>
       <maml:description>
         <maml:para>Get customers from NinjaRMM.</maml:para>
       </maml:description>
@@ -152,7 +152,7 @@
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Get-NinjaRmmCustomers</maml:name>
+        <maml:name>Get-NinjaCustomers</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>CustomerId</maml:name>
           <maml:Description>
@@ -203,27 +203,27 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Before you can use this cmdlet, you will need to run Set-NinjaRmmSecrets.</maml:para>
+        <maml:para>Before you can use this cmdlet, you will need to run Set-NinjaSecrets.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-NinjaRmmCustomers</dev:code>
+        <dev:code>PS C:\&gt; Get-NinjaCustomers</dev:code>
         <dev:remarks>
           <maml:para>Retrieve all customers' data.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-NinjaRmmCustomer -CustomerId 42</dev:code>
+        <dev:code>PS C:\&gt; Get-NinjaCustomer -CustomerId 42</dev:code>
         <dev:remarks>
           <maml:para>Retrieve data about the customer with the ID number of 42.  To find ID numbers, look in your NinjaRMM dashboard.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 3 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-NinjaRmmCustomer | Where {$_.Name -Like '*Consulting'} | Format-List</dev:code>
+        <dev:code>PS C:\&gt; Get-NinjaCustomer | Where {$_.Name -Like '*Consulting'} | Format-List</dev:code>
         <dev:remarks>
           <maml:para>Retrieve all customers whose name ends with "Consulting."  This module converts the API results into native PowerShell objects that can be parsed, filtered, and manipulated with other cmdlets.</maml:para>
         </dev:remarks>
@@ -232,23 +232,23 @@
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/man/en-US/Get-NinjaRmmCustomers.md</maml:uri>
+        <maml:uri>https://github.com/kalichuza/NinjaRmmApiTool/blob/main/man/en-US/Get-NinjaCustomers.md</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>about_NinjaRmmApi</maml:linkText>
+        <maml:linkText>about_NinjaApi</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Set-NinjaRmmSecrets</maml:linkText>
+        <maml:linkText>Set-NinjaSecrets</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Get-NinjaRmmDevices</command:name>
+      <command:name>Get-NinjaDevices</command:name>
       <command:verb>Get</command:verb>
-      <command:noun>NinjaRmmDevices</command:noun>
+      <command:noun>NinjaDevices</command:noun>
       <maml:description>
         <maml:para>Gets device information from NinjaRMM.</maml:para>
       </maml:description>
@@ -258,7 +258,7 @@
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Get-NinjaRmmDevices</maml:name>
+        <maml:name>Get-NinjaDevices</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>DeviceId</maml:name>
           <maml:Description>
@@ -309,27 +309,27 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Before you can use this cmdlet, you will need to run Set-NinjaRmmSecrets.</maml:para>
+        <maml:para>Before you can use this cmdlet, you will need to run Set-NinjaSecrets.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-NinjaRmmDevices</dev:code>
+        <dev:code>PS C:\&gt; Get-NinjaDevices</dev:code>
         <dev:remarks>
           <maml:para>Retrieve a list of all available devices.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-NinjaRmmDevices -DeviceId 528</dev:code>
+        <dev:code>PS C:\&gt; Get-NinjaDevices -DeviceId 528</dev:code>
         <dev:remarks>
           <maml:para>Retrieve all information about device number 528.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 3 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-NinjaRmmDevices | Where {$_.System.Manufacturer -eq 'Hewlett-Packard'} | Out-GridView</dev:code>
+        <dev:code>PS C:\&gt; Get-NinjaDevices | Where {$_.System.Manufacturer -eq 'Hewlett-Packard'} | Out-GridView</dev:code>
         <dev:remarks>
           <maml:para>Retrieve all devices that report their manufacturer as Hewlett-Packard.  This module converts the API results into native PowerShell objects that can be parsed, filtered, and manipulated with other cmdlets.</maml:para>
         </dev:remarks>
@@ -338,23 +338,23 @@
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/man/en-US/Get-NinjaRmmDevices.md</maml:uri>
+        <maml:uri>https://github.com/kalichuza/NinjaRmmApiTool/blob/main/man/en-US/Get-NinjaDevices.md</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>about_NinjaRmmApi</maml:linkText>
+        <maml:linkText>about_NinjaApi</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Set-NinjaRmmSecrets</maml:linkText>
+        <maml:linkText>Set-NinjaSecrets</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Reset-NinjaRmmAlert</command:name>
+      <command:name>Reset-NinjaAlert</command:name>
       <command:verb>Reset</command:verb>
-      <command:noun>NinjaRmmAlert</command:noun>
+      <command:noun>NinjaAlert</command:noun>
       <maml:description>
         <maml:para>Reset one alert in NinjaRMM.</maml:para>
       </maml:description>
@@ -364,7 +364,7 @@
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Reset-NinjaRmmAlert</maml:name>
+        <maml:name>Reset-NinjaAlert</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>AlertId</maml:name>
           <maml:Description>
@@ -415,13 +415,13 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Before you can use this cmdlet, you will need to run Set-NinjaRmmSecrets.</maml:para>
+        <maml:para>Before you can use this cmdlet, you will need to run Set-NinjaSecrets.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Reset-NinjaRmmAlert -AlertId 1234567</dev:code>
+        <dev:code>PS C:\&gt; Reset-NinjaAlert -AlertId 1234567</dev:code>
         <dev:remarks>
           <maml:para>Reset the alert with ID 1234567.  If successful, there will be no output.</maml:para>
         </dev:remarks>
@@ -430,37 +430,37 @@
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/man/en-US/Reset-NinjaRmmAlert.md</maml:uri>
+        <maml:uri>https://github.com/kalichuza/NinjaRmmApiTool/blob/main/man/en-US/Reset-NinjaAlert.md</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>about_NinjaRmmApi</maml:linkText>
+        <maml:linkText>about_NinjaApi</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Get-NinjaRmmAlerts</maml:linkText>
+        <maml:linkText>Get-NinjaAlerts</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Set-NinjaRmmSecrets</maml:linkText>
+        <maml:linkText>Set-NinjaSecrets</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Reset-NinjaRmmSecrets</command:name>
+      <command:name>Reset-NinjaSecrets</command:name>
       <command:verb>Reset</command:verb>
-      <command:noun>NinjaRmmSecrets</command:noun>
+      <command:noun>NinjaSecrets</command:noun>
       <maml:description>
         <maml:para>Removes your NinjaRMM API keys from memory.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>This cmdlet will remove the NinjaRMM access key ID and secret access key from memory.  After running this cmdlet, no other NinjaRmm cmdlets will work;  you will need to run Set-NinjaRmmSecrets again.</maml:para>
+      <maml:para>This cmdlet will remove the NinjaRMM access key ID and secret access key from memory.  After running this cmdlet, no other Ninja cmdlets will work;  you will need to run Set-NinjaSecrets again.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Reset-NinjaRmmSecrets</maml:name>
+        <maml:name>Reset-NinjaSecrets</maml:name>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters />
@@ -486,13 +486,13 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>After you use this cmdlet, you will need to run Set-NinjaRmmSecrets.</maml:para>
+        <maml:para>After you use this cmdlet, you will need to run Set-NinjaSecrets.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Reset-NinjaRmmSecrets</dev:code>
+        <dev:code>PS C:\&gt; Reset-NinjaSecrets</dev:code>
         <dev:remarks>
           <maml:para>Forgets the NinjaRMM secrets.</maml:para>
         </dev:remarks>
@@ -501,23 +501,23 @@
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/man/en-US/Reset-NinjaRmmSecrets.md</maml:uri>
+        <maml:uri>https://github.com/kalichuza/NinjaRmmApiTool/blob/main/man/en-US/Reset-NinjaSecrets.md</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>about_NinjaRmmApi</maml:linkText>
+        <maml:linkText>about_NinjaApi</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Set-NinjaRmmSecrets</maml:linkText>
+        <maml:linkText>Set-NinjaSecrets</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Set-NinjaRmmSecrets</command:name>
+      <command:name>Set-NinjaSecrets</command:name>
       <command:verb>Set</command:verb>
-      <command:noun>NinjaRmmSecrets</command:noun>
+      <command:noun>NinjaSecrets</command:noun>
       <maml:description>
         <maml:para>Sets your NinjaRMM API keys.</maml:para>
       </maml:description>
@@ -527,7 +527,7 @@
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Set-NinjaRmmSecrets</maml:name>
+        <maml:name>Set-NinjaSecrets</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>AccessKeyId</maml:name>
           <maml:Description>
@@ -602,14 +602,14 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Your NinjaRMM API information is stored in the system's environment.  It is possible for another process on your computer to see this information.  If this is a concern, you may wish to run Reset-NinjaRmmSecrets when you are finished.</maml:para>
+        <maml:para>Your NinjaRMM API information is stored in the system's environment.  It is possible for another process on your computer to see this information.  If this is a concern, you may wish to run Reset-NinjaSecrets when you are finished.</maml:para>
         <maml:para>Your NinjaRMM secrets are only stored for the current PowerShell session.  For long-term storage, consider using a password manager, saving them to your profile, or storing them with the SecretManagement module.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Set-NinjaRmmSecrets -AccessKeyID "TF4STGMDR4H7AEXAMPLE" -SecretAccessKey "eh14c4ngchhu6283he03j6o7ar2fcuca0example"</dev:code>
+        <dev:code>PS C:\&gt; Set-NinjaSecrets -AccessKeyID "TF4STGMDR4H7AEXAMPLE" -SecretAccessKey "eh14c4ngchhu6283he03j6o7ar2fcuca0example"</dev:code>
         <dev:remarks>
           <maml:para>This prepares the module to access the NinjaRMM API.</maml:para>
         </dev:remarks>
@@ -618,27 +618,23 @@
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/man/en-US/Reset-NinjaRmmSecrets.md</maml:uri>
+        <maml:uri>https://github.com/kalichuza/NinjaRmmApiTool/blob/main/man/en-US/Set-NinjaSecrets.md</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>about_NinjaRmmApi</maml:linkText>
+        <maml:linkText>about_NinjaApi</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Reset-NinjaRmmSecrets</maml:linkText>
+        <maml:linkText>Reset-NinjaSecrets</maml:linkText>
         <maml:uri></maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>SecretManagement</maml:linkText>
-        <maml:uri>https://github.com/PowerShell/SecretManagement</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Set-NinjaRmmServerLocation</command:name>
+      <command:name>Set-NinjaServerLocation</command:name>
       <command:verb>Set</command:verb>
-      <command:noun>NinjaRmmServerLocation</command:noun>
+      <command:noun>NinjaServerLocation</command:noun>
       <maml:description>
         <maml:para>Selects a NinjaRMM API server.</maml:para>
       </maml:description>
@@ -648,7 +644,7 @@
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Set-NinjaRmmServerLocation</maml:name>
+        <maml:name>Set-NinjaServerLocation</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Location</maml:name>
           <maml:Description>
@@ -709,7 +705,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Set-NinjaRmmServerLocation -Location 'EU'</dev:code>
+        <dev:code>PS C:\&gt; Set-NinjaServerLocation -Location 'EU'</dev:code>
         <dev:remarks>
           <maml:para>Switches this module to use the API servers located in the European Union.</maml:para>
         </dev:remarks>
@@ -717,7 +713,7 @@
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>about_NinjaRmmApi</maml:linkText>
+        <maml:linkText>about_NinjaApi</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
