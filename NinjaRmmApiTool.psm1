@@ -12,8 +12,6 @@ Function Set-NinjaSecrets {
     $global:NinjaRmmSecretAccessKey = $SecretAccessKey
 }
 
-
-
 Function Reset-NinjaSecrets {
     [Alias('Remove-NinjaSecrets')]
     [OutputType('void')]
@@ -200,11 +198,12 @@ Function Reset-NinjaAlert {
     [Alias('Remove-NinjaAlert')]
     Param(
         [Parameter(Mandatory)]
-        [UInt32] $AlertId
+        [String] $AlertId
     )
 
-    Return (Send-NinjaRequest -Method 'DELETE' -RequestToSend "/v1/alerts/$AlertId")
+    Return (Send-NinjaRequest -Method 'DELETE' -RequestToSend "/v2/alerts/$AlertId")
 }
+
 
 Function Get-NinjaCustomers {
     [CmdletBinding(DefaultParameterSetName='AllCustomers')]
