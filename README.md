@@ -4,7 +4,7 @@ This module is a fork of the [NinjaRmmApi](https://github.com/rhymeswithmogul/Ni
 
 ## Changes
 
-Currntly this I have just set up this fork as a staging ground and will release the tool when all of is parts are in working order. 
+Currntly, a work in progress. Will Publish officially soon
 
 ## Installation
 ```powershell
