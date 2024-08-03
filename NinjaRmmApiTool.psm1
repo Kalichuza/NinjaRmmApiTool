@@ -148,7 +148,7 @@ Function Get-NinjaAlerts {
         [UInt32] $Since
     )
 
-    $Request = '/v1/alerts'
+    $Request = '/v2/alerts'
     If ($PSCmdlet.ParameterSetName -eq 'OneAlert') {
         $Request += "/$AlertId"
     }
@@ -156,7 +156,28 @@ Function Get-NinjaAlerts {
         $Request += "/since/$Since"
     }
 
-    Return (Send-NinjaRequest -RequestToSend $Request)
+    $alerts = Send-NinjaRequest -RequestToSend $Request
+
+    # Function to convert Unix epoch time to human-readable format
+    Function Convert-UnixTime {
+        [CmdletBinding()]
+        Param(
+            [Parameter(Mandatory = $true, Position = 0)]
+            [Double] $UnixTime
+        )
+
+        $epoch = [DateTime]"1970-01-01 00:00:00Z"
+        $humanReadableTime = $epoch.AddSeconds($UnixTime).ToLocalTime()
+        return $humanReadableTime
+    }
+
+    # Convert the timestamps
+    foreach ($alert in $alerts) {
+        $alert.createTime = Convert-UnixTime -UnixTime $alert.createTime
+        $alert.updateTime = Convert-UnixTime -UnixTime $alert.updateTime
+    }
+
+    return $alerts
 }
 
 Function Reset-NinjaAlert {
@@ -202,5 +223,34 @@ Function Get-NinjaDevices {
         $Request = "/v2/devices/$DeviceId"
     }
 
-    Return (Send-NinjaRequest -RequestToSend $Request)
+    $devices = Send-NinjaRequest -RequestToSend $Request
+
+    # Function to convert Unix epoch time to human-readable format
+    Function Convert-UnixTime {
+        [CmdletBinding()]
+        Param(
+            [Parameter(Mandatory = $true, Position = 0)]
+            [Double] $UnixTime
+        )
+
+        $epoch = [DateTime]"1970-01-01 00:00:00Z"
+        $humanReadableTime = $epoch.AddSeconds($UnixTime).ToLocalTime()
+        return $humanReadableTime
+    }
+
+    # Convert the timestamps for each device
+    foreach ($device in $devices) {
+        if ($device.createTime) {
+            $device.createTime = Convert-UnixTime -UnixTime $device.createTime
+        }
+        if ($device.lastContact) {
+            $device.lastContact = Convert-UnixTime -UnixTime $device.lastContact
+        }
+        if ($device.lastUpdate) {
+            $device.lastUpdate = Convert-UnixTime -UnixTime $device.lastUpdate
+        }
+    }
+
+    return $devices
 }
+
