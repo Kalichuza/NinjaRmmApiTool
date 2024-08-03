@@ -86,8 +86,6 @@ Function Get-AccessToken {
     }
 }
 
-
-
 Function Send-NinjaRequest {
     [CmdletBinding()]
     Param(
@@ -96,7 +94,11 @@ Function Send-NinjaRequest {
         [String] $RequestToSend,
 
         [ValidateSet('GET', 'PUT', 'POST', 'DELETE')]
-        [String] $Method = 'GET'
+        [String] $Method = 'GET',
+
+        [Hashtable] $Headers = $null,
+
+        [String] $Body = $null
     )
 
     If ($null -eq $global:NinjaRmmSecretAccessKey) {
@@ -148,6 +150,14 @@ Function Send-NinjaRequest {
         }
     }
 
+    if ($Headers) {
+        $Arguments['Headers'] += $Headers
+    }
+
+    if ($Body) {
+        $Arguments['Body'] = $Body
+    }
+
     Return (Invoke-RestMethod @Arguments)
 }
 
@@ -192,7 +202,6 @@ Function Get-NinjaAlerts {
 
     return $alerts
 }
-
 Function Reset-NinjaAlert {
     [CmdletBinding()]
     [Alias('Remove-NinjaAlert')]
@@ -201,17 +210,24 @@ Function Reset-NinjaAlert {
         [String] $AlertId
     )
 
-    Return (Send-NinjaRequest -Method 'DELETE' -RequestToSend "/v2/alerts/$AlertId")
+    $Request = "/v2/alert/$AlertId/reset"
+    $Headers = @{
+        'accept'       = '*/*'
+        'Content-Type' = 'application/json'
+    }
+    $Body = '{}' # Empty JSON body
+
+    Write-Verbose "Sending request to: $Request"
+    Return (Send-NinjaRequest -Method 'POST' -RequestToSend $Request -Headers $Headers -Body $Body)
 }
 
-
 Function Get-NinjaCustomers {
-    [CmdletBinding(DefaultParameterSetName='AllCustomers')]
+    [CmdletBinding(DefaultParameterSetName = 'AllCustomers')]
     Param(
-        [Parameter(ParameterSetName='OneCustomer')]
+        [Parameter(ParameterSetName = 'OneCustomer')]
         [UInt32] $CustomerId,
 
-        [Parameter(ParameterSetName='AllCustomers')]
+        [Parameter(ParameterSetName = 'AllCustomers')]
         [UInt32] $PageSize = 50
     )
 
@@ -223,12 +239,12 @@ Function Get-NinjaCustomers {
     Return (Send-NinjaRequest -RequestToSend $Request)
 }
 Function Get-NinjaDevices {
-    [CmdletBinding(DefaultParameterSetName='AllDevices')]
+    [CmdletBinding(DefaultParameterSetName = 'AllDevices')]
     Param(
-        [Parameter(ParameterSetName='OneDevice')]
+        [Parameter(ParameterSetName = 'OneDevice')]
         [UInt32] $DeviceId,
 
-        [Parameter(ParameterSetName='AllDevices')]
+        [Parameter(ParameterSetName = 'AllDevices')]
         [UInt32] $PageSize = 500
     )
 
