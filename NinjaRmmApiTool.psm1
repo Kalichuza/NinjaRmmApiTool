@@ -205,4 +205,20 @@ Function Get-NinjaCustomers {
 
     Return (Send-NinjaRequest -RequestToSend $Request)
 }
+Function Get-NinjaDevices {
+    [CmdletBinding(DefaultParameterSetName='AllDevices')]
+    Param(
+        [Parameter(ParameterSetName='OneDevice')]
+        [UInt32] $DeviceId,
 
+        [Parameter(ParameterSetName='AllDevices')]
+        [UInt32] $PageSize = 25
+    )
+
+    $Request = "/v2/devices?pageSize=$PageSize"
+    If ($PSCmdlet.ParameterSetName -eq 'OneDevice') {
+        $Request = "/v2/devices/$DeviceId"
+    }
+
+    Return (Send-NinjaRequest -RequestToSend $Request)
+}
