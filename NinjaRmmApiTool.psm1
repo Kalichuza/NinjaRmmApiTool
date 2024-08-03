@@ -12,6 +12,8 @@ Function Set-NinjaSecrets {
     $global:NinjaRmmSecretAccessKey = $SecretAccessKey
 }
 
+
+
 Function Reset-NinjaSecrets {
     [Alias('Remove-NinjaSecrets')]
     [OutputType('void')]
@@ -41,6 +43,16 @@ Function Set-NinjaOAuthEndpoint {
     $global:NinjaRmmOAuthEndpoint = $OAuthEndpoint
 }
 
+Function Set-NinjaScope {
+    [OutputType('void')]
+    Param(
+        [Parameter(Mandatory = $true)]
+        [String] $Scope
+    )
+
+    $global:NinjaRmmScope = $Scope
+}
+
 Function Get-AccessToken {
     param (
         [Parameter(Mandatory = $true)]
@@ -50,10 +62,11 @@ Function Get-AccessToken {
         [String] $ClientID,
 
         [Parameter(Mandatory = $true)]
-        [String] $ClientSecret,
-
-        [String] $Scope = 'monitoring'
+        [String] $ClientSecret
     )
+
+    # Use the global scope variable
+    $Scope = $global:NinjaRmmScope
 
     $Body = "grant_type=client_credentials&client_id=$([uri]::EscapeDataString($ClientID))&client_secret=$([uri]::EscapeDataString($ClientSecret))&scope=$([uri]::EscapeDataString($Scope))"
     $Headers = @{
@@ -74,6 +87,8 @@ Function Get-AccessToken {
         return $null
     }
 }
+
+
 
 Function Send-NinjaRequest {
     [CmdletBinding()]
