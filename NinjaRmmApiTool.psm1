@@ -52,7 +52,11 @@ Function Send-NinjaRequest {
         [ValidateSet('GET', 'PUT', 'POST', 'DELETE')]
         [String] $Method = 'GET',
 
-        [Hashtable] $Body = $null
+        [Hashtable] $Headers = @{},
+        
+        [Parameter(Mandatory = $false)]
+        [AllowEmptyString()]
+        [String] $Body = ''
     )
 
     If ($null -eq $global:NinjaRmmSecretAccessKey) {
@@ -88,34 +92,32 @@ Function Send-NinjaRequest {
         [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls13
     }
 
-    $Uri = "https://$HostName$RequestToSend"
-
-    $Headers = @{
-        'Authorization' = "Bearer $AccessToken"
-        'Host'          = $HostName
-        'User-Agent'    = $UserAgent
-    }
-
-    $Arguments = @{
-        'Method'  = $Method
-        'Uri'     = $Uri
-        'Headers' = $Headers
-    }
-
-    If ($Body -ne $null) {
-        $Arguments['Body'] = ($Body | ConvertTo-Json)
-        $Arguments['ContentType'] = 'application/json'
-    }
-
     Write-Debug -Message ("Will send the request:`n`n" `
             + "$Method $RequestToSend HTTP/1.1`n" `
             + "Host: $HostName`n" `
             + "Authorization: Bearer $AccessToken`n" `
             + "User-Agent: $UserAgent")
 
+    $Arguments = @{
+        'Method'  = $Method
+        'Uri'     = "https://$HostName$RequestToSend"
+        'Headers' = @{
+            'Authorization' = "Bearer $AccessToken"
+            'Host'          = $HostName
+            'User-Agent'    = $UserAgent
+        }
+    }
+
+    If ($Headers) {
+        $Arguments['Headers'] += $Headers
+    }
+
+    If ($Body) {
+        $Arguments['Body'] = $Body
+    }
+
     Return (Invoke-RestMethod @Arguments)
 }
-
 
 Function Get-AccessToken {
     param (
@@ -161,7 +163,7 @@ Function Get-NinjaAlerts {
         [Parameter(ParameterSetName = 'AllAlertsSince')]
         [UInt32] $Since
     )
-
+    $global:NinjaRmmScope = 'monitoring'
     $Request = '/v2/alerts'
     If ($PSCmdlet.ParameterSetName -eq 'OneAlert') {
         $Request += "/$AlertId"
@@ -203,7 +205,7 @@ Function Get-NinjaCustomers {
         [Parameter(ParameterSetName = 'AllCustomers')]
         [UInt32] $PageSize = 50
     )
-
+    $global:NinjaRmmScope = 'monitoring'
     $Request = "/v2/organizations?pageSize=$PageSize"
     If ($PSCmdlet.ParameterSetName -eq 'OneCustomer') {
         $Request = "/v2/organizations/$CustomerId"
@@ -220,7 +222,7 @@ Function Get-NinjaDevices {
         [Parameter(ParameterSetName = 'AllDevices')]
         [UInt32] $PageSize = 500
     )
-
+    $global:NinjaRmmScope = 'monitoring'
     $Request = "/v2/devices?pageSize=$PageSize"
     If ($PSCmdlet.ParameterSetName -eq 'OneDevice') {
         $Request = "/v2/devices/$DeviceId"
@@ -257,6 +259,18 @@ Function Get-NinjaDevices {
     return $devices
 }
 
+Function Get-NinjaSoftwareInventory {
+    [CmdletBinding()]
+    Param()
+
+    # Ensure the scope is set to 'monitoring' for this function
+    $global:NinjaRmmScope = 'monitoring'
+
+    $Request = "/v2/software-products"
+    $softwareInventory = Send-NinjaRequest -RequestToSend $Request
+
+    return $softwareInventory
+}
 Function Reset-NinjaAlert {
     [CmdletBinding()]
     [Alias('Remove-NinjaAlert')]
@@ -264,7 +278,7 @@ Function Reset-NinjaAlert {
         [Parameter(Mandatory)]
         [String] $AlertId
     )
-
+    $global:NinjaRmmScope = 'management'
     $Request = "/v2/alert/$AlertId/reset"
     $Headers = @{
         'accept'       = '*/*'
@@ -275,6 +289,7 @@ Function Reset-NinjaAlert {
     Write-Verbose "Sending request to: $Request"
     Return (Send-NinjaRequest -Method 'POST' -RequestToSend $Request -Headers $Headers -Body $Body)
 }
+
 Function Reset-NinjaSecrets {
     [Alias('Remove-NinjaSecrets')]
     [OutputType('void')]
@@ -297,11 +312,16 @@ Function Reboot-NinjaDevice {
         [ValidateSet('NORMAL', 'FORCED')]
         [String] $RebootType = 'NORMAL'
     )
-
+    $global:NinjaRmmScope = 'management'
     $Request = "/v2/device/$DeviceId/reboot/$RebootType"
+    $Headers = @{
+        'Content-Type' = 'application/json'
+    }
     $Body = @{
         reason = $Reason
-    }
+    } | ConvertTo-Json
 
-    Return (Send-NinjaRequest -Method 'POST' -RequestToSend $Request -Body $Body)
+    Write-Verbose "Sending request to: $Request"
+    Return (Send-NinjaRequest -Method 'POST' -RequestToSend $Request -Headers $Headers -Body $Body)
+    Write-Host 'Devivce has been rebooted.'
 }

@@ -28,6 +28,7 @@ with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
         'Get-NinjaAlerts',
         'Get-NinjaCustomers',
         'Get-NinjaDevices',
+        'Get-NinjaSoftwareInventory',
         'Reset-NinjaAlert',
         'Reset-NinjaSecrets',
         'Set-NinjaSecrets',
