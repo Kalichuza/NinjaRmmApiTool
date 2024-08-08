@@ -295,6 +295,27 @@ Function Get-NinjaEndpointURL {
 
     return $endpointURL
 }
+
+function Get-NinjaBackups {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [UInt32] $PageSize = 10,
+
+        [Parameter(Mandatory)]
+        [ValidateSet('true', 'false')]
+        [string] $IncludeDeletedDevices
+    )
+
+    # Ensure the scope is set to 'monitoring' for this function
+    $global:NinjaRmmScope = 'monitoring'
+
+    $Request = "/v2//queries/backup/usage?pageSize=$PageSize&includeDeletedDevices=$IncludeDeletedDevices"
+
+    $Backups = Send-NinjaRequest -RequestToSend $Request
+
+    return $Backups
+}
 Function Reset-NinjaAlert {
     [CmdletBinding()]
     [Alias('Remove-NinjaAlert')]
