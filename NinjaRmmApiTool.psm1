@@ -283,7 +283,7 @@ Function Get-NinjaEndpointURL {
         [String] $locationId,
 
         [Parameter(Mandatory)]
-        [ValidateSet('WINDOWS_MSI','MAC_PKG', 'MAC_DMG', 'LINUX_DEB', 'LINUX_RPM')]
+        [ValidateSet('WINDOWS_MSI', 'MAC_PKG', 'MAC_DMG', 'LINUX_DEB', 'LINUX_RPM')]
         [String] $installerType
     )
 
@@ -296,7 +296,7 @@ Function Get-NinjaEndpointURL {
     return $endpointURL
 }
 
-function Get-NinjaBackups {
+Function Get-NinjaBackups {
     [CmdletBinding()]
     param (
         [Parameter()]
@@ -310,12 +310,31 @@ function Get-NinjaBackups {
     # Ensure the scope is set to 'monitoring' for this function
     $global:NinjaRmmScope = 'monitoring'
 
-    $Request = "/v2//queries/backup/usage?pageSize=$PageSize&includeDeletedDevices=$IncludeDeletedDevices"
+    $Request = "/v2/queries/backup/usage?pageSize=$PageSize&includeDeletedDevices=$IncludeDeletedDevices"
 
     $Backups = Send-NinjaRequest -RequestToSend $Request
 
-    return $Backups
+    $Results = $Backups.results | ForEach-Object {
+        [PSCustomObject]@{
+            Id                      = $_.id
+            OrganizationId          = $_.organizationId
+            SystemName              = $_.systemName
+            RevisionsCurrentSizeGB  = [math]::Round($_.references.backupUsage.revisionsCurrentSize / 1GB, 2)
+            RevisionsPreviousSizeGB = [math]::Round($_.references.backupUsage.revisionsPreviousSize / 1GB, 2)
+            RevisionsDeletedSizeGB  = [math]::Round($_.references.backupUsage.revisionsDeletedSize / 1GB, 2)
+            LocalFileFolderSizeGB   = [math]::Round($_.references.backupUsage.localFileFolderSize / 1GB, 2)
+            LocalImageSizeGB        = [math]::Round($_.references.backupUsage.localImageSize / 1GB, 2)
+            CloudFileFolderSizeGB   = [math]::Round($_.references.backupUsage.cloudFileFolderSize / 1GB, 2)
+            CloudImageSizeGB        = [math]::Round($_.references.backupUsage.cloudImageSize / 1GB, 2)
+            RevisionsTotalSizeGB    = [math]::Round($_.references.backupUsage.revisionsTotalSize / 1GB, 2)
+            CloudTotalSizeGB        = [math]::Round($_.references.backupUsage.cloudTotalSize / 1GB, 2)
+            LocalTotalSizeGB        = [math]::Round($_.references.backupUsage.localTotalSize / 1GB, 2)
+        }
+    }
+
+    $Results | Format-Table -AutoSize
 }
+
 Function Reset-NinjaAlert {
     [CmdletBinding()]
     [Alias('Remove-NinjaAlert')]
