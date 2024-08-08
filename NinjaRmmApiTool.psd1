@@ -36,6 +36,7 @@ with NinjaRmmApiTool.  If not, see <https://www.gnu.org/licenses/>.
         'Set-NinjaOAuthEndpoint',
         'Set-NinjaScope',
         'Reboot-NinjaDevice'
+        'Get-NinjaEndpointURL'
     )
     CmdletsToExport = @()
     VariablesToExport = @()

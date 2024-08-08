@@ -273,6 +273,28 @@ Function Get-NinjaSoftwareInventory {
 
     return $softwareInventory
 }
+Function Get-NinjaEndpointURL {
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory)]
+        [String] $orgId,
+
+        [Parameter(Mandatory)]
+        [String] $locationId,
+
+        [Parameter(Mandatory)]
+        [ValidateSet('WINDOWS_MSI','MAC_PKG', 'MAC_DMG', 'LINUX_DEB', 'LINUX_RPM')]
+        [String] $installerType
+    )
+
+    # Ensure the scope is set to 'monitoring' for this function
+    $global:NinjaRmmScope = 'management'
+
+    $Request = "/v2/organization/$orgId/location/$locationId/installer/$installerType"
+    $endpointURL = Send-NinjaRequest -RequestToSend $Request
+
+    return $endpointURL
+}
 Function Reset-NinjaAlert {
     [CmdletBinding()]
     [Alias('Remove-NinjaAlert')]
