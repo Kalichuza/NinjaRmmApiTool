@@ -19,7 +19,7 @@ PS C:\> Install-Module -Name NinjaRmmApiTool -AllowClobber -Force
 A PowerShell module to interact with [the NinjaRMM Public API](https://www.ninjarmm.com/dev-api/).  This currently complies with [beta version 2.0 of the API]([https://ninjaresources.s3.amazonaws.com/PublicApi/0.1.2/NinjaRMM%20Public%20API%20v0.1.2.pdf](https://mcstech.rmmservice.com/apidocs/?links.active=core)).
 
 ## Installing this module
-This module will soon be available in [PowerShell Gallery](https://www.powershellgallery.com/packages/NinjaRmmApi):
+This module will soon be available in [PowerShell Gallery](https://www.powershellgallery.com/packages/NinjaRmmApiTool/):
 ```powershell
 PS C:\> Install-Module -Name NinjaRmmApiTool -AllowClobber -Force
 ```
