@@ -7,7 +7,7 @@ This module is a fork of the [NinjaRmmApi](https://github.com/rhymeswithmogul/Ni
 Version 1.0.1 up now on PSGallery 
 ## Installation
 ```powershell
-PS C:\> Install-Module -Name NinjaRmmApiTool -AllowClobber -Force
+Install-Module -Name NinjaRmmApiTool -AllowClobber -Force
 ```
 
 <hr>
@@ -21,7 +21,7 @@ A PowerShell module to interact with [the NinjaRMM Public API](https://www.ninja
 ## Installing this module
 This module will soon be available in [PowerShell Gallery](https://www.powershellgallery.com/packages/NinjaRmmApiTool/):
 ```powershell
-PS C:\> Install-Module -Name NinjaRmmApiTool -AllowClobber -Force
+Install-Module -Name NinjaRmmApiTool -AllowClobber -Force
 ```
 Or, download it from here and save all of the files somewhere in your `$PSModulePath`.
 
@@ -30,7 +30,7 @@ To get started with this module, you will need to log into your dashboard and [r
 
 Then, in your PowerShell session, teach it your secrets with `Set-NinjaSecrets`.
 ```powershell
-PS C:\> Set-NinjaSecrets -AccessKeyID "TF4STGMDR4H7AEXAMPLE" -SecretAccessKey "eh14c4ngchhu6283he03j6o7ar2fcuca0example"
+Set-NinjaSecrets -AccessKeyID "TF4STGMDR4H7AEXAMPLE" -SecretAccessKey "eh14c4ngchhu6283he03j6o7ar2fcuca0example"
 ```
 You will need to do this every time you start a new PowerShell session;  this module does *not* store your keys for you!  For long-term storage, consider using a password manager, sticking the keys in your `$Profile` file, or using the [SecretManagement module](https://github.com/powershell/secretmanagement).  How you do this is an exercise left to the reader.
 
@@ -47,7 +47,7 @@ Set-NijnaScope -Scope 'monitoring'
 ### Customers
 You can look up customer information with the `Get-NinjaCustomers` cmdlet.  With no arguments, it returns a list of all customers.  You can also use the -CustomerID parameter to fetch a specific customer.  The NinjaRMM API returns data as objects that you can parse with other PowerShell cmdlets like `Format-List` and `Select-Object` (and, of course, everyone's favorite, `Out-GridView`!).
 ```powershell
-PS C:\> Get-NinjaCustomers -CustomerID 42
+Get-NinjaCustomers -CustomerID 42
 
 id name         description
 -- ----         --------------
@@ -72,21 +72,21 @@ domain             : WORKGROUP
 ### Alerts
 You can get and reset alerts, too:
 ```powershell
-PS C:\> $alertsToReviewLater = Get-NinjaAlerts -Since 3071641
+$alertsToReviewLater = Get-NinjaAlerts -Since 3071641
 
-PS C:\> ReSet-NinjaAlert -AlertID 3071642
+ReSet-NinjaAlert -AlertID 3071642
 ```
 
 ## After you're done
 When you are finished, it is best practice to remove your API key from memory:
 ```powershell
-PS C:\> ReSet-NinjaSecrets
+ReSet-NinjaSecrets
 ```
 
 ## What else can I do?
 There is plenty of help to read.  Get started with this:
 ```powershell
-PS C:\> Get-Help about_NinjaRmmApiTool
+Get-Help about_NinjaRmmApiTool
 ```
 
 ## Legal Notices
