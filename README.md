@@ -16,7 +16,7 @@ Install-Module -Name NinjaRmmApiTool -AllowClobber -Force
 # NinjaRmmApiTool
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/CODE_OF_CONDUCT.md) 
 
-A PowerShell module to interact with [the NinjaRMM Public API](https://www.ninjarmm.com/dev-api/).  This currently complies with [beta version 2.0 of the API]([https://ninjaresources.s3.amazonaws.com/PublicApi/0.1.2/NinjaRMM%20Public%20API%20v0.1.2.pdf](https://mcstech.rmmservice.com/apidocs/?links.active=core)).
+A PowerShell module to interact with [the NinjaRMM Public API](https://www.ninjarmm.com/dev-api/).  This currently complies with [beta version 2.0 of the API]([https://ninjaresources.s3.amazonaws.com/PublicApi/0.1.2/NinjaRMM%20Public%20API%20v0.1.2.pdf](https://companyname.rmmservice.com/apidocs/?links.active=core)).
 
 ## Installing this module
 This module will soon be available in [PowerShell Gallery](https://www.powershellgallery.com/packages/NinjaRmmApiTool/):
